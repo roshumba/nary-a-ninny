@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  STUDENT
+  INSTRUCTOR
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?   
+  role          Role      @default(STUDENT)
+  accounts      Account[]
+  sessions      Session[]
+  lectures      Lecture[] @relation("InstructorLectures")
+  questions     Question[]
+}
+
+// NextAuth Required Models
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Lecture {
+  id           String     @id @default(cuid())
+  code         String     @unique 
+  title        String
+  isActive     Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  endedAt      DateTime?
+  instructorId String
+  instructor   User       @relation("InstructorLectures", fields: [instructorId], references: [id])
+  questions    Question[]
+  insights     Insight[]
+}
+
+model Question {
+  id               String   @id @default(cuid())
+  originalText     String
+  rephrasedText    String?
+  isFlagged        Boolean  @default(false)
+  flagReason       String?
+  isAnswered       Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  
+  // Relations
+  studentId        String
+  student          User     @relation(fields: [studentId], references: [id])
+  lectureId        String
+  lecture          Lecture  @relation(fields: [lectureId], references: [id])
+  insightId        String? 
+  insight          Insight? @relation(fields: [insightId], references: [id])
+}
+
+model Insight { 
+   id 			        String @id @default(cuid()) 
+   summaryText 	    String // The AI-synthesized common question/topic 
+   type 		        String // "COMMON" or "HIGH_PAYOFF" 
+   createdAt 		    DateTime @default(now()) 
+   lectureId 		    String 
+   lecture 		      Lecture @relation(fields: [lectureId], references: [id]) 
+   sourceQuestions 	Question[] 
+}

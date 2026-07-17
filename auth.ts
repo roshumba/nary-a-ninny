@@ -33,19 +33,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // validate user input
         const validatedCredentials = credentialSchema.safeParse(credentials);
         if (!validatedCredentials.success) return null;
-
         const { email, password } = validatedCredentials.data;
 
         // check for existing user
         const dbUser = await prisma.user.findUnique({
           where: { email: email },
         });
-
         if (!dbUser || !dbUser.password) return null;
 
         // compare current password with db password
         const dbHash = dbUser.password;
-
         const isValid = await compare(password, dbHash);
 
         if (!isValid) {

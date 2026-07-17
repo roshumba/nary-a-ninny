@@ -8,6 +8,7 @@ import {
   loginWithCredentials,
   type LoginState,
 } from '../lib/auth-actions';
+import { Button } from '../ui/button';
 
 const initialState: LoginState = {};
 
@@ -36,23 +37,23 @@ export default function SignIn() {
           <input type='password' name='password' placeholder='•••••' required />
         </div>
         {state.error && <p style={{ color: 'red' }}>{state.error}</p>}
-        <button type='submit' disabled={isPending}>
+        <Button type='submit' disabled={isPending}>
           {isPending ? 'Signing in…' : 'Sign in with Email'}
-        </button>
+        </Button>
       </form>
 
       <form action={loginWithGitHub}>
         {error === 'github' && (
           <p style={{ color: 'red' }}>Unable to sign in with GitHub.</p>
         )}
-        <button type='submit'>Sign in with GitHub</button>
+        <Button type='submit'>Sign in with GitHub</Button>
       </form>
 
       <form action={loginWithGoogle}>
         {error === 'google' && (
           <p style={{ color: 'red' }}>Unable to sign in with Google.</p>
         )}
-        <button type='submit'>Sign in with Google</button>
+        <Button type='submit'>Sign in with Google</Button>
       </form>
     </>
   );

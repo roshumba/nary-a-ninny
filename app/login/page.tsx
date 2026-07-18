@@ -22,6 +22,10 @@ export default function SignIn() {
 
   return (
     <>
+      <div>
+        <span>Sign in</span>
+      </div>
+      {/* Sign in with email */}
       <form action={formAction}>
         <div>
           <label>Email</label>
@@ -41,14 +45,14 @@ export default function SignIn() {
           {isPending ? 'Signing in…' : 'Sign in with Email'}
         </Button>
       </form>
-
+      {/* Sign in with GitHub */}
       <form action={loginWithGitHub}>
         {error === 'github' && (
           <p style={{ color: 'red' }}>Unable to sign in with GitHub.</p>
         )}
         <Button type='submit'>Sign in with GitHub</Button>
       </form>
-
+      {/* Sign in with Google */}
       <form action={loginWithGoogle}>
         {error === 'google' && (
           <p style={{ color: 'red' }}>Unable to sign in with Google.</p>

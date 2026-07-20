@@ -1,12 +1,12 @@
 'use client';
 import { Button } from '../ui/button';
 import { useActionState } from 'react';
-import { SignUpWithCredentials, type SignUpState } from '../lib/signup-actions';
+import { signUpWithCredentials, type SignUpState } from '../lib/signup-actions';
 
 const initialState: SignUpState = {};
 
 export default function SignUp() {
-  const [state, formAction, isPending] = useActionState(SignUpWithCredentials, initialState)
+  const [state, formAction, isPending] = useActionState(signUpWithCredentials, initialState)
   return (
     <>
       <div>

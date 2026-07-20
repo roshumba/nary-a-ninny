@@ -1,12 +1,12 @@
 'use client'
 import { Button } from "@/app/ui/button";
 import { useActionState } from "react";
-import { SelectUserRole, type RoleSelectionState } from "@/app/lib/signup-actions";
+import { selectUserRole, type RoleSelectionState } from "@/app/lib/signup-actions";
 
 const initialState: RoleSelectionState = {}
 
 export default function Lecture() {
-  const [state, formAction, isPending] = useActionState(SelectUserRole, initialState);
+  const [state, formAction, isPending] = useActionState(selectUserRole, initialState);
   return (
     <>
       <form action={formAction}>

@@ -18,7 +18,7 @@ export type SignUpState = {
   error?: string;
 };
 
-export async function SignUpWithCredentials(
+export async function signUpWithCredentials(
   prevState: SignUpState,
   formData: FormData,
 ): Promise<SignUpState> {
@@ -89,7 +89,7 @@ const validRoleSchema = z
   })
   .transform((role) => role.toUpperCase() as Role);
 
-export async function SelectUserRole(
+export async function selectUserRole(
   prevState: RoleSelectionState,
   formData: FormData,
 ): Promise<RoleSelectionState> {

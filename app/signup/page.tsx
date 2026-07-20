@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '../ui/button';
 import { useActionState } from 'react';
-import { SignUpWithCredentials, SignUpState } from '../lib/signup-actions';
+import { SignUpWithCredentials, type SignUpState } from '../lib/signup-actions';
 
 const initialState: SignUpState = {};
 
@@ -29,7 +29,7 @@ export default function SignUp() {
           <input type='password' name='password' placeholder='•••••' required />
         </div>
         {state.error && <p style={{ color: 'red' }}>{state.error}</p>}
-        <Button>{isPending ? 'Signing up' : 'Sign up with Email'}</Button>
+        <Button>{isPending ? 'Signing up...' : 'Sign up with Email'}</Button>
       </form>
       {/* Sign in with GitHub */}
       <form>

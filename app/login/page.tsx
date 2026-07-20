@@ -1,7 +1,6 @@
 'use client';
 
-import { useActionState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { Suspense, useActionState } from 'react';
 import {
   loginWithGitHub,
   loginWithGoogle,
@@ -9,16 +8,15 @@ import {
   type LoginState,
 } from '../lib/auth-actions';
 import { Button } from '../ui/button';
+import { OAuthError } from '../ui/signup/oauth-error';
 
 const initialState: LoginState = {};
 
 export default function SignIn() {
-  const searchParams = useSearchParams();
   const [state, formAction, isPending] = useActionState(
     loginWithCredentials,
     initialState,
   );
-  const error = searchParams.get('error');
 
   return (
     <>
@@ -47,16 +45,17 @@ export default function SignIn() {
       </form>
       {/* Sign in with GitHub */}
       <form action={loginWithGitHub}>
-        {error === 'github' && (
-          <p style={{ color: 'red' }}>Unable to sign in with GitHub.</p>
-        )}
+        <Suspense>
+            {/* uses search params - not available to pre-render / needs suspense */}
+          <OAuthError provider='github' />
+        </Suspense>
         <Button type='submit'>Sign in with GitHub</Button>
       </form>
       {/* Sign in with Google */}
       <form action={loginWithGoogle}>
-        {error === 'google' && (
-          <p style={{ color: 'red' }}>Unable to sign in with Google.</p>
-        )}
+        <Suspense>
+          <OAuthError provider='google' />
+        </Suspense>
         <Button type='submit'>Sign in with Google</Button>
       </form>
     </>

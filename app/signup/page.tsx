@@ -1,4 +1,5 @@
 'use client';
+
 import { Button } from '../ui/button';
 import { useActionState } from 'react';
 import { signUpWithCredentials, type SignUpState } from '../lib/signup-actions';

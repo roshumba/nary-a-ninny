@@ -10,10 +10,9 @@ export default function SignUp() {
   const [state, formAction, isPending] = useActionState(signUpWithCredentials, initialState)
   return (
     <>
-      <div>
-        <span>Sign Up</span>
-        <p>Register to use Nary a Ninny</p>
-      </div>
+      <div className='mx-auto flex flex-col max-w-m shrink-0 bg-white p-10 rounded-lg shadow-lg items-center outline'>
+        <span className='text-xl mb-2'>Sign Up</span>
+        <p className='text-gray-500 mb-4'>Register to use Nary a Ninny</p>
       {/* Sign up with email */}
       <form action={formAction}> 
         <div>
@@ -40,6 +39,7 @@ export default function SignUp() {
       <form>
         <Button type='submit'>Sign up with Google</Button>
       </form>
+      </div>
     </>
   );
 }

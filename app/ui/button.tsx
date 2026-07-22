@@ -9,8 +9,7 @@ export function Button({ children, className, ...rest }: ButtonProps) {
   return (
     <button
       {...rest}
-      shrink-0 bg-white p-10 rounded-lg
-      className={className}
+      className={clsx('shrink-0 bg-white p-10 rounded-lg', className)}
     >
       {children}
     </button>
